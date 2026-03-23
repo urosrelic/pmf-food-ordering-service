@@ -6,6 +6,8 @@ services:
     container_name: config-server
     ports:
       - "8888:8888"
+    environment:
+      - MONGODB_URI=${MONGODB_URI}
     networks:
       - spring-cloud-network
 
@@ -31,6 +33,8 @@ services:
       - config-server
     environment:
       - eureka.client.service-url.defaultZone=http://discovery-server:8761/eureka/
+      - eureka.instance.hostname=gateway-service
+      - eureka.instance.prefer-ip-address=false
 
   # Auth Service
   auth-service:
@@ -42,8 +46,12 @@ services:
       - spring-cloud-network
     depends_on:
       - discovery-server
+      - config-server
     environment:
       - eureka.client.service-url.defaultZone=http://discovery-server:8761/eureka/
+      - spring.data.mongodb.uri=${MONGODB_URI}
+      - eureka.instance.hostname=auth-service
+      - eureka.instance.prefer-ip-address=false
 
   # Food Service
   food-service:
@@ -53,6 +61,9 @@ services:
       - "8100:8100"
     environment:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://discovery-server:8761/eureka/
+      - spring.data.mongodb.uri=${MONGODB_URI}
+      - eureka.instance.hostname=food-service
+      - eureka.instance.prefer-ip-address=false
     networks:
       - spring-cloud-network
     depends_on:
@@ -72,6 +83,9 @@ services:
       - config-server
     environment:
       - eureka.client.service-url.defaultZone=http://discovery-server:8761/eureka/
+      - spring.data.mongodb.uri=${MONGODB_URI}
+      - eureka.instance.hostname=restaurant-service
+      - eureka.instance.prefer-ip-address=false
 
   # Category Service
   category-service:
@@ -86,6 +100,9 @@ services:
       - config-server
     environment:
       - eureka.client.service-url.defaultZone=http://discovery-server:8761/eureka/
+      - spring.data.mongodb.uri=${MONGODB_URI}
+      - eureka.instance.hostname=category-service
+      - eureka.instance.prefer-ip-address=false
 
   # Cart Service
   cart-service:
@@ -100,7 +117,9 @@ services:
       - config-server
     environment:
       - eureka.client.service-url.defaultZone=http://discovery-server:8761/eureka/
-
+      - spring.data.mongodb.uri=${MONGODB_URI}
+      - eureka.instance.hostname=cart-service
+      - eureka.instance.prefer-ip-address=false
 
 networks:
   spring-cloud-network:
