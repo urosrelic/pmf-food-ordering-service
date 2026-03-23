@@ -48,7 +48,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    private ResponseEntity<Object> login(@RequestBody UserLoginRequest loginRequest) {
+    public ResponseEntity<Object> login(@RequestBody UserLoginRequest loginRequest) {
         try {
             String token = authService.login(loginRequest);
             return ResponseHandler.generateResponseWithBody(ResponseType.SUCCESS, "Login successful", HttpStatus.OK, token);
