@@ -3,9 +3,14 @@ server:
 spring:
   application:
     name: config-server
+  data:
+    mongodb:
+      uri: ${MONGODB_URI}
   cloud:
     config:
       server:
         git:
           default-label: main
-          uri: https://github.com/urosrelic/rzk-projekat.git
+          uri: https://github.com/urosrelic/pmf-food-ordering-service
+
+
