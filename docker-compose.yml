@@ -1,8 +1,7 @@
-version: '3.8'
 services:
   # Config Server
   config-server:
-    image: urosrelic/config-server:1.0
+    image: urosrelic/config-server:latest
     container_name: config-server
     ports:
       - "8888:8888"
@@ -13,7 +12,7 @@ services:
 
   # Eureka Server
   discovery-server:
-    image: urosrelic/discovery:1.0
+    image: urosrelic/discovery:latest
     container_name: discovery-server
     ports:
       - "8761:8761"
@@ -22,7 +21,7 @@ services:
 
   # Gateway Service
   gateway-service:
-    image: urosrelic/gateway:1.0
+    image: urosrelic/gateway:latest
     container_name: gateway-service
     ports:
       - "8222:8222"
@@ -38,7 +37,7 @@ services:
 
   # Auth Service
   auth-service:
-    image: urosrelic/auth:1.0
+    image: urosrelic/auth:latest
     container_name: auth-service
     ports:
       - "9898:9898"
@@ -55,7 +54,7 @@ services:
 
   # Food Service
   food-service:
-    image: urosrelic/food:1.0
+    image: urosrelic/food:latest
     container_name: food-service
     ports:
       - "8100:8100"
@@ -72,7 +71,7 @@ services:
 
   # Restaurant Service
   restaurant-service:
-    image: urosrelic/restaurant:1.0
+    image: urosrelic/restaurant:latest
     container_name: restaurant-service
     ports:
       - "8120:8120"
@@ -89,7 +88,7 @@ services:
 
   # Category Service
   category-service:
-    image: urosrelic/category:1.0
+    image: urosrelic/category:latest
     container_name: category-service
     ports:
       - "8110:8110"
@@ -106,7 +105,7 @@ services:
 
   # Cart Service
   cart-service:
-    image: urosrelic/cart:1.0
+    image: urosrelic/cart:latest
     container_name: cart-service
     ports:
       - "8130:8130"
