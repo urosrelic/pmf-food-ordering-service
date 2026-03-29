@@ -1,13 +1,13 @@
-eureka:
-    instance:
-        hostname: cart-service
-    client:
-        service-url:
-            defaultZone: http://discovery-server:8761/eureka/
 spring:
-    application:
-        name: cart-service
-    config:
-        import: optional:configserver:http://config-server:8888
+  application:
+    name: cart-service
+  config:
+    import: optional:configserver:http://config-server:8888
+eureka:
+  instance:
+    hostname: cart-service
+  client:
+    service-url:
+      defaultZone: http://discovery-server:8761/eureka/
 server:
-    port: 8130
+  port: 8130
