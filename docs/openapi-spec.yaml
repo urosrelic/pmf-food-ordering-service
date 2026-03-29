@@ -38,6 +38,7 @@ paths:
     post:
       tags: [Authentication]
       summary: Register a new user
+      security: []
       requestBody:
         required: true
         content:
@@ -56,6 +57,7 @@ paths:
     post:
       tags: [Authentication]
       summary: Login and receive JWT
+      security: []
       requestBody:
         required: true
         content:
@@ -84,6 +86,7 @@ paths:
     post:
       tags: [Authentication]
       summary: Validate JWT token
+      security: []
       requestBody:
         required: true
         content:
@@ -143,6 +146,8 @@ paths:
     post:
       tags: [Category]
       summary: Create category
+      security:
+        - bearerAuth: []
       requestBody:
         required: true
         content:
@@ -154,6 +159,8 @@ paths:
           description: Category created successfully
         '400':
           description: Error creating category
+        '401':
+          description: Unauthorized
 
   /category:
     get:
@@ -261,6 +268,8 @@ paths:
     post:
       tags: [Food]
       summary: Create food item
+      security:
+        - bearerAuth: []
       requestBody:
         required: true
         content:
@@ -272,6 +281,8 @@ paths:
           description: Food created successfully
         '400':
           description: Invalid request
+        '401':
+          description: Unauthorized
 
   /food:
     get:
@@ -609,7 +620,7 @@ components:
           type: array
           items:
             type: string
-        openinTime:
+        openingTime:
           type: string
         closingTime:
           type: string
@@ -634,7 +645,7 @@ components:
           type: array
           items:
             type: string
-        openinTime:
+        openingTime:
           type: string
         closingTime:
           type: string
