@@ -1,0 +1,125 @@
+services:
+  # Config Server
+  config-server:
+    image: urosrelic/config-server:latest
+    container_name: config-server
+    ports:
+      - "8888:8888"
+    environment:
+      - MONGODB_URI=${MONGODB_URI}
+    networks:
+      - spring-cloud-network
+
+  # Eureka Server
+  discovery-server:
+    image: urosrelic/discovery:latest
+    container_name: discovery-server
+    ports:
+      - "8761:8761"
+    networks:
+      - spring-cloud-network
+
+  # Gateway Service
+  gateway-service:
+    image: urosrelic/gateway:latest
+    container_name: gateway-service
+    ports:
+      - "8222:8222"
+    networks:
+      - spring-cloud-network
+    depends_on:
+      - discovery-server
+      - config-server
+    environment:
+      - eureka.client.service-url.defaultZone=http://discovery-server:8761/eureka/
+      - eureka.instance.hostname=gateway-service
+      - eureka.instance.prefer-ip-address=false
+
+  # Auth Service
+  auth-service:
+    image: urosrelic/auth:latest
+    container_name: auth-service
+    ports:
+      - "9898:9898"
+    networks:
+      - spring-cloud-network
+    depends_on:
+      - discovery-server
+      - config-server
+    environment:
+      - eureka.client.service-url.defaultZone=http://discovery-server:8761/eureka/
+      - spring.data.mongodb.uri=${MONGODB_URI}
+      - eureka.instance.hostname=auth-service
+      - eureka.instance.prefer-ip-address=false
+
+  # Food Service
+  food-service:
+    image: urosrelic/food:latest
+    container_name: food-service
+    ports:
+      - "8100:8100"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://discovery-server:8761/eureka/
+      - spring.data.mongodb.uri=${MONGODB_URI}
+      - eureka.instance.hostname=food-service
+      - eureka.instance.prefer-ip-address=false
+    networks:
+      - spring-cloud-network
+    depends_on:
+      - config-server
+      - discovery-server
+
+  # Restaurant Service
+  restaurant-service:
+    image: urosrelic/restaurant:latest
+    container_name: restaurant-service
+    ports:
+      - "8120:8120"
+    networks:
+      - spring-cloud-network
+    depends_on:
+      - discovery-server
+      - config-server
+    environment:
+      - eureka.client.service-url.defaultZone=http://discovery-server:8761/eureka/
+      - spring.data.mongodb.uri=${MONGODB_URI}
+      - eureka.instance.hostname=restaurant-service
+      - eureka.instance.prefer-ip-address=false
+
+  # Category Service
+  category-service:
+    image: urosrelic/category:latest
+    container_name: category-service
+    ports:
+      - "8110:8110"
+    networks:
+      - spring-cloud-network
+    depends_on:
+      - discovery-server
+      - config-server
+    environment:
+      - eureka.client.service-url.defaultZone=http://discovery-server:8761/eureka/
+      - spring.data.mongodb.uri=${MONGODB_URI}
+      - eureka.instance.hostname=category-service
+      - eureka.instance.prefer-ip-address=false
+
+  # Cart Service
+  cart-service:
+    image: urosrelic/cart:latest
+    container_name: cart-service
+    ports:
+      - "8130:8130"
+    networks:
+      - spring-cloud-network
+    depends_on:
+      - discovery-server
+      - config-server
+    environment:
+      - eureka.client.service-url.defaultZone=http://discovery-server:8761/eureka/
+      - spring.data.mongodb.uri=${MONGODB_URI}
+      - eureka.instance.hostname=cart-service
+      - eureka.instance.prefer-ip-address=false
+
+networks:
+  spring-cloud-network:
+    driver: bridge

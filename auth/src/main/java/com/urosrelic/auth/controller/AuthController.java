@@ -48,7 +48,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    private ResponseEntity<Object> login(@RequestBody UserLoginRequest loginRequest) {
+    public ResponseEntity<Object> login(@RequestBody UserLoginRequest loginRequest) {
         try {
             String token = authService.login(loginRequest);
             return ResponseHandler.generateResponseWithBody(ResponseType.SUCCESS, "Login successful", HttpStatus.OK, token);
@@ -75,6 +75,24 @@ public class AuthController {
         } catch (io.jsonwebtoken.MalformedJwtException e) {
             return ResponseHandler.generateResponse(ResponseType.ERROR, "Malformed JWT token", HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @GetMapping("/get-user-data")
+    public ResponseEntity<Object> getUserData(@RequestHeader("Authorization") String token) {
+        String email = jwtService.extractUsername(token.replace("Bearer ", "").trim());
+
+        Optional<User> userOptional = authService.getUserByEmail(email);
+        if (userOptional.isPresent()) {
+            return ResponseHandler.generateResponseWithBody(ResponseType.SUCCESS, "User found", HttpStatus.OK, userOptional.get());
+        } else {
+            return ResponseHandler.generateResponse(ResponseType.ERROR, "User not found", HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/get-user")
+    public User getUser(@RequestHeader("Authorization") String token) {
+        String email = jwtService.extractUsername(token.replace("Bearer ", "").trim());
+        return authService.getUserByEmail(email).orElse(null);
     }
 
 }
