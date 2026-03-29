@@ -7,8 +7,8 @@ eureka:
 spring:
   application:
     name: auth-service
-    config:
-        import: optional:configserver:http://config-server:8888
+  config:
+    import: optional:configserver:http://config-server:8888
 security:
   jwt:
     secret: fa7f681d4597c77dd5d90aad3702162e6bc3d4a840f8e87ef6f8f56402d7b95c
